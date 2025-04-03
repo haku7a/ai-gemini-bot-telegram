@@ -1,34 +1,23 @@
-import base64
-import os
-from google import genai
-from google.genai import types
+import asyncio
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
+from aiogram.filters import CommandStart
+from config import BOT_TOKEN
 
 
-def generate():
-    client = genai.Client(
-        api_key=os.environ.get("GEMINI_API_KEY"),
-    )
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
 
-    model = "gemini-2.0-flash"
-    contents = [
-        types.Content(
-            role="user",
-            parts=[
-                types.Part.from_text(text="""INSERT_INPUT_HERE"""),
-            ],
-        ),
-    ]
-    generate_content_config = types.GenerateContentConfig(
-        response_mime_type="text/plain",
-    )
 
-    for chunk in client.models.generate_content_stream(
-        model=model,
-        contents=contents,
-        config=generate_content_config,
-    ):
-        print(chunk.text, end="")
+@dp.message(CommandStart())
+async def command_start_handler(message: Message) -> None:
+    await message.answer(';)')
+
+
+async def main() -> None:
+    bot = Bot(token=BOT_TOKEN)
+    await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-    generate()
+    asyncio.run(main())
