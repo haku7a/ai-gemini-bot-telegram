@@ -4,7 +4,10 @@ from google import genai
 from google.genai import types
 
 
-def generate():
+def generate(history):
+
+    generated_answer = ''
+
     client = genai.Client(
         api_key=os.environ.get("YOUR_API_KEY"),
     )
@@ -15,18 +18,23 @@ def generate():
             role="user",
             parts=[
                 types.Part.from_text(
-                    text="""на Python"""),
+                    text=str(history[:]),
+                ),
             ],
         ),
     ]
 
     tools = [
-        tools = tools,
         types.Tool(google_search=types.GoogleSearch())
     ]
 
     generate_content_config = types.GenerateContentConfig(
+        tools=tools,
         response_mime_type="text/plain",
+        system_instruction=[
+            types.Part.from_text(text="""Отвечай максимально кратко, 
+            НИКОГДА не выходя за пределы моего запроса, не раскрывай дополнительные вопросы."""),
+        ],
     )
 
     for chunk in client.models.generate_content_stream(
@@ -34,8 +42,6 @@ def generate():
         contents=contents,
         config=generate_content_config,
     ):
-        print(chunk.text, end="")
+        generated_answer += chunk.text
 
-
-if __name__ == "__main__":
-    generate()
+    return generated_answer
