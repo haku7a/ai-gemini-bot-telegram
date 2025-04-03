@@ -29,6 +29,8 @@ def generate(history):
     ]
 
     generate_content_config = types.GenerateContentConfig(
+        temperature=1,
+        top_p=1,
         tools=tools,
         response_mime_type="text/plain",
         system_instruction=[
