@@ -8,22 +8,23 @@ from config import RESPONSE_INSTRUCTION
 def generate(history):
 
     generated_answer = ''
+    contents = []
 
     client = genai.Client(
         api_key=os.environ.get("YOUR_API_KEY"),
     )
 
     model = "gemini-2.0-flash"
-    contents = [
-        types.Content(
-            role="user",
+
+    for history_item in history:
+        contents.append(types.Content(
+            role=history_item['role'],
             parts=[
                 types.Part.from_text(
-                    text=str(history[:]),
-                ),
+                    text=history_item['parts']),
             ],
         ),
-    ]
+        )
 
     tools = [
         types.Tool(google_search=types.GoogleSearch())
