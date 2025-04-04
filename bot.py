@@ -2,7 +2,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message
 from aiogram.filters import CommandStart
-from config import BOT_TOKEN
+from config import BOT_TOKEN, MAX_HISTORY_LENGTH
 from g_ai_utils import generate as gemini
 
 
@@ -10,7 +10,6 @@ bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 message_history = {}
-MAX_HISTORY_LENGTH = 6
 
 
 @dp.message(CommandStart())
