@@ -2,6 +2,7 @@ import base64
 import os
 from google import genai
 from google.genai import types
+from config import RESPONSE_INSTRUCTION
 
 
 def generate(history):
@@ -34,8 +35,7 @@ def generate(history):
         tools=tools,
         response_mime_type="text/plain",
         system_instruction=[
-            types.Part.from_text(text="""Отвечай максимально кратко, 
-            НИКОГДА не выходя за пределы моего запроса, не раскрывай дополнительные вопросы."""),
+            types.Part.from_text(text=RESPONSE_INSTRUCTION),
         ],
     )
 
