@@ -34,6 +34,7 @@ def generate(history):
         temperature=1,
         top_p=1,
         tools=tools,
+        max_output_tokens=4000,
         response_mime_type="text/plain",
         system_instruction=[
             types.Part.from_text(text=RESPONSE_INSTRUCTION),
