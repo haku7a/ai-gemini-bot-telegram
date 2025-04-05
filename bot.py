@@ -1,5 +1,5 @@
 import asyncio
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
 from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
@@ -21,8 +21,17 @@ message_history = {}
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message, state: FSMContext) -> None:
-    message_history.pop(message.chat.id, None)
     if message.from_user.id in ALLOWED_USER_IDS:
+        message_history.pop(message.chat.id, None)
+        commands = [
+            types.BotCommand(command="/default",
+                             description="Базовая модель"),
+            types.BotCommand(
+                command="/pro", description="Более совершенная модель"),
+            types.BotCommand(command="/start",
+                             description="Начать новую сессию"),
+        ]
+        await bot.set_my_commands(commands)
         await message.answer('👍')
         await state.set_state(AccessState.access_granted)
     else:
