@@ -2,7 +2,7 @@ import base64
 import os
 from google import genai
 from google.genai import types
-from config import RESPONSE_INSTRUCTION
+from config import RESPONSE_INSTRUCTION, AI_TEMPERATURE, AI_TOP_P
 
 
 def generate(history):
@@ -31,8 +31,8 @@ def generate(history):
     ]
 
     generate_content_config = types.GenerateContentConfig(
-        temperature=1,
-        top_p=1,
+        temperature=AI_TEMPERATURE,
+        top_p=AI_TOP_P,
         tools=tools,
         max_output_tokens=4000,
         response_mime_type="text/plain",
