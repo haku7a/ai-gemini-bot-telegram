@@ -6,6 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from config import BOT_TOKEN, MAX_HISTORY_LENGTH, ALLOWED_USER_IDS
 from g_ai_utils import generate as gemini
+from services.text_splitter import split_into_chunks
 
 
 bot = Bot(token=BOT_TOKEN)
@@ -54,7 +55,10 @@ async def message_handler(message: Message,  state: FSMContext):
         if len(message_history[user_id]) > MAX_HISTORY_LENGTH:
             message_history[user_id] = message_history[user_id][2:]
 
-        await bot.send_message(chat_id=message.chat.id, text=ai_response)
+
+        for chunk in split_into_chunks(ai_response, 4096):
+            await bot.send_message(chat_id=message.chat.id, text=chunk)
+
     else:
         await message.answer('👎')
 
