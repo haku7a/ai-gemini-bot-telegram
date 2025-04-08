@@ -6,8 +6,8 @@ from aiogram.filters import CommandStart, Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from config import BOT_TOKEN, MAX_HISTORY_LENGTH, ALLOWED_USER_IDS
-from g_ai_utils import generate as gemini
-from services.text_splitter import split_into_chunks
+from ai.gemini import generate as gemini
+from utils.text_splitter import split_into_chunks
 import logging
 
 logger = logging.getLogger(__name__)
