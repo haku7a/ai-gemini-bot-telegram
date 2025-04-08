@@ -8,6 +8,7 @@ from aiogram.fsm.state import StatesGroup, State
 from config import BOT_TOKEN, MAX_HISTORY_LENGTH, ALLOWED_USER_IDS
 from ai.gemini import generate as gemini
 from utils.text_splitter import split_into_chunks
+from utils.bot_setup import set_default_commands
 import logging
 
 logger = logging.getLogger(__name__)
@@ -20,18 +21,6 @@ dp = Dispatcher()
 class UserMode(StatesGroup):
     default = State()
     pro = State()
-
-
-async def set_default_commands(bot: Bot):
-    commands = [
-        types.BotCommand(command='/default',
-                         description="Базовая модель"),
-        types.BotCommand(
-            command='/pro', description="Более совершенная модель"),
-        types.BotCommand(command='/start',
-                         description="Начать новую сессию"),
-    ]
-    await bot.set_my_commands(commands)
 
 
 @dp.message(CommandStart())
