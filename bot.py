@@ -8,7 +8,7 @@ from aiogram.fsm.state import StatesGroup, State
 from config import BOT_TOKEN, MAX_HISTORY_LENGTH, ALLOWED_USER_IDS
 from ai.gemini import generate as gemini
 from utils.text_splitter import split_into_chunks
-from utils.bot_setup import set_default_commands
+from bot_setup import set_default_commands
 import logging
 
 logger = logging.getLogger(__name__)
